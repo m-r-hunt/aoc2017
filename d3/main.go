@@ -13,29 +13,31 @@ const (
 func addHeading(x, y, heading int) (int, int) {
 	switch heading {
 	case Up:
-		return x, y-1
+		return x, y - 1
 	case Left:
-	return x-1, y
+		return x - 1, y
 	case Down:
-		return x, y+1
+		return x, y + 1
 	case Right:
-		return x+1, y
+		return x + 1, y
+	default:
+		panic("Bad heading")
 	}
-	panic("Bleh")
 }
 
 func main() {
-	origin := 250
-	spaces := make([][]int, origin * 2)
+	origin := 10
+	spaces := make([][]int, origin*2)
 	for i := range spaces {
-		spaces[i] = make([]int, origin * 2)
+		spaces[i] = make([]int, origin*2)
 	}
 	x, y := origin, origin
 	spaces[x][y] = 1
 	heading := Right
-	for {
-		if nx, ny := addHeading(x, y, (heading + 1) % MaxHeading); spaces[nx][ny] == 0 {
-			heading = (heading + 1) % MaxHeading
+	for spaces[x][y] < 277678 {
+		leftTurn := (heading+1)%MaxHeading
+		if nx, ny := addHeading(x, y, leftTurn); spaces[nx][ny] == 0 {
+			heading = leftTurn
 			x, y = nx, ny
 		} else {
 			x, y = addHeading(x, y, heading)
@@ -48,9 +50,6 @@ func main() {
 				spaces[x][y] += spaces[x+i][y+j]
 			}
 		}
-		if spaces[x][y] >= 277678 {
-			fmt.Println(spaces[x][y])
-			break
-		}
 	}
+	fmt.Println(spaces[x][y])
 }

@@ -1,10 +1,10 @@
 package main
 
 import (
-	"github.com/m-r-hunt/mygifs"
-	"strings"
 	"fmt"
+	"github.com/m-r-hunt/mygifs"
 	"strconv"
+	"strings"
 )
 
 const colwidth = 50
@@ -37,7 +37,7 @@ func main() {
 
 	f := g.AddBlankFrame()
 	f.DrawText(0, 0, "Checksum", mygifs.Black)
-	for i,l := range lines {
+	for i, l := range lines {
 		nums := strings.Split(l, "\t")
 		for l, n := range nums {
 			nn, _ := strconv.Atoi(n)
@@ -47,13 +47,13 @@ func main() {
 			} else if l == maxis[i] {
 				c = mygifs.Green
 			}
-			f.DrawText(l * colwidth, (i+1) * rowheight, strconv.Itoa(nn), c)
+			f.DrawText(l*colwidth, (i+1)*rowheight, strconv.Itoa(nn), c)
 		}
 		max, _ := strconv.Atoi(nums[maxis[i]])
 		min, _ := strconv.Atoi(nums[minis[i]])
-		f.DrawText(len(nums) * colwidth, (i+1) * rowheight, strconv.Itoa(max - min), mygifs.Blue)
+		f.DrawText(len(nums)*colwidth, (i+1)*rowheight, strconv.Itoa(max-min), mygifs.Blue)
 	}
-	f.DrawText(len(strings.Split(lines[0], "\t")) * colwidth, (len(lines)+1) * rowheight, strconv.Itoa(checksum), mygifs.Cyan)
+	f.DrawText(len(strings.Split(lines[0], "\t"))*colwidth, (len(lines)+1)*rowheight, strconv.Itoa(checksum), mygifs.Cyan)
 	g.FreezeFrame(200)
 
 	topis := make([]int, len(lines))
@@ -65,7 +65,7 @@ func main() {
 			for l, m := range nums {
 				nn, _ := strconv.Atoi(n)
 				mm, _ := strconv.Atoi(m)
-				if nn > mm && nn % mm == 0 {
+				if nn > mm && nn%mm == 0 {
 					evenSum += nn / mm
 					topis[i] = k
 					botis[i] = l
@@ -77,7 +77,7 @@ func main() {
 
 	f = g.AddBlankFrame()
 	f.DrawText(0, 0, "Even Values", mygifs.Black)
-	for i,l := range lines {
+	for i, l := range lines {
 		nums := strings.Split(l, "\t")
 		for l, n := range nums {
 			nn, _ := strconv.Atoi(n)
@@ -87,12 +87,12 @@ func main() {
 			} else if l == botis[i] {
 				c = mygifs.Green
 			}
-			f.DrawText(l * colwidth, (i+1) * rowheight, strconv.Itoa(nn), c)
+			f.DrawText(l*colwidth, (i+1)*rowheight, strconv.Itoa(nn), c)
 		}
 		top, _ := strconv.Atoi(nums[topis[i]])
 		bot, _ := strconv.Atoi(nums[botis[i]])
-		f.DrawText(len(nums) * colwidth, (i+1) * rowheight, strconv.Itoa(top / bot), mygifs.Blue)
+		f.DrawText(len(nums)*colwidth, (i+1)*rowheight, strconv.Itoa(top/bot), mygifs.Blue)
 	}
-	f.DrawText(len(strings.Split(lines[0], "\t")) * colwidth, (len(lines)+1) * rowheight, strconv.Itoa(evenSum), mygifs.Cyan)
+	f.DrawText(len(strings.Split(lines[0], "\t"))*colwidth, (len(lines)+1)*rowheight, strconv.Itoa(evenSum), mygifs.Cyan)
 	g.FreezeFrame(200)
 }

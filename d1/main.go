@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/m-r-hunt/mygifs"
 	"fmt"
+	"github.com/m-r-hunt/mygifs"
 )
 
 func drawBands(f *mygifs.Frame, s string) {
@@ -54,7 +54,7 @@ func main() {
 	for i, d := range s {
 		f := g.AddBlankFrame()
 		drawBands(f, s)
-		drawLeftArrow(f, i, mygifs.Colour(1 + d - '0'))
+		drawLeftArrow(f, i, mygifs.Colour(1+d-'0'))
 		digitVal := int(d - '0')
 		next := (i + 1) % len(s)
 		if s[i] == s[next] {
