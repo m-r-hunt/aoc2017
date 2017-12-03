@@ -26,6 +26,9 @@ func addHeading(x, y, heading int) (int, int) {
 }
 
 func main() {
+	// Part 1 via calculator/thought.
+
+	// Part 2
 	origin := 10
 	spaces := make([][]int, origin*2)
 	for i := range spaces {
