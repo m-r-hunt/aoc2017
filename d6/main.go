@@ -25,15 +25,15 @@ func main() {
 		redist := state[maxi]
 		state[maxi] = 0
 
-		for index := (maxi+1)%16; redist > 0; index = (index+1)%16 {
+		for index := (maxi + 1) % 16; redist > 0; index = (index + 1) % 16 {
 			state[index]++
 			redist--
 		}
 		fmt.Println(state)
-		if _,ok := visitedStates[state]; ok {
+		if _, ok := visitedStates[state]; ok {
 			break
 		}
-		visitedStates[state]=count
+		visitedStates[state] = count
 	}
 	fmt.Println(count)
 	fmt.Println(count - visitedStates[state])

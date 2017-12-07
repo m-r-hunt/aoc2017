@@ -1,9 +1,9 @@
 package main
 
 import (
+	"fmt"
 	"github.com/m-r-hunt/mygifs"
 	"strconv"
-	"fmt"
 )
 
 func drawJumps(f *mygifs.Frame, jumps []int) {
@@ -20,12 +20,12 @@ func drawJumps(f *mygifs.Frame, jumps []int) {
 
 func main() {
 	lines := mygifs.JustLoadLines("input.txt")
-	g := mygifs.NewGif(len(lines) / 2, 20)
+	g := mygifs.NewGif(len(lines)/2, 20)
 	defer g.Write("solution.gif")
 	g.SetFrameskip(1000)
 	jumps := make([]int, len(lines))
 	for i := range lines {
-		n, _:= strconv.Atoi(lines[i])
+		n, _ := strconv.Atoi(lines[i])
 		jumps[i] = n
 	}
 	pc := 0
