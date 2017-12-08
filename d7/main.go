@@ -29,14 +29,14 @@ func weight(root string, towers map[string]tower) int {
 
 func findImbalance(root string, towers map[string]tower) bool {
 	weights := make([]int, len(towers[root].children))
-	for i,c := range towers[root].children {
+	for i, c := range towers[root].children {
 		weights[i] = weight(c, towers)
 	}
 	for i := 0; i < len(weights)-1; i++ {
 		if weights[i] != weights[i+1] {
 			t := false
 			if weights[i] != weights[i+2] {
-				t= findImbalance(towers[root].children[i], towers)
+				t = findImbalance(towers[root].children[i], towers)
 				if t {
 					tt := towers[towers[root].children[i]]
 					fmt.Println(tt.weight)
@@ -45,7 +45,7 @@ func findImbalance(root string, towers map[string]tower) bool {
 					fmt.Println(towers[towers[root].children[i+1]].weight)
 				}
 			} else {
-				t= findImbalance(towers[root].children[i+1], towers)
+				t = findImbalance(towers[root].children[i+1], towers)
 				if t {
 					tt := towers[towers[root].children[i+1]]
 					fmt.Println(tt.weight)
@@ -58,7 +58,7 @@ func findImbalance(root string, towers map[string]tower) bool {
 		}
 	}
 	return true
-	found:
+found:
 
 	return false
 }
