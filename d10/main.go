@@ -1,4 +1,4 @@
-package main
+package d10
 
 import (
 	"fmt"
@@ -7,7 +7,7 @@ import (
 	"strings"
 )
 
-func knotHash(toHash string) string {
+func KnotHash(toHash string) []int {
 	hash := make([]int, 256)
 	for i := range hash {
 		hash[i] = i
@@ -40,7 +40,10 @@ func knotHash(toHash string) string {
 			denseHash[i] ^= hash[i*16+j]
 		}
 	}
+	return denseHash
+}
 
+func KnotHashToString(denseHash []int) string {
 	out := ""
 	for _, h := range denseHash {
 		out += fmt.Sprintf("%02x", h)
@@ -78,5 +81,5 @@ func main() {
 	fmt.Println(hash[0] * hash[1])
 
 	// Part 2
-	fmt.Println(knotHash(line))
+	fmt.Println(KnotHashToString(KnotHash(line)))
 }
