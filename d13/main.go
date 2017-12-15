@@ -1,17 +1,17 @@
 package main
 
 import (
-	"github.com/m-r-hunt/mygifs"
-	"strings"
-	"strconv"
 	"fmt"
+	"github.com/m-r-hunt/mygifs"
+	"strconv"
+	"strings"
 )
 
 func main() {
 	lines := mygifs.JustLoadLines("input.txt")
 	firewalls := map[int]int{}
 	layerMax := 0
-	for _,l := range lines {
+	for _, l := range lines {
 		f := strings.Split(l, ": ")
 		layer, _ := strconv.Atoi(f[0])
 		depth, _ := strconv.Atoi(f[1])
@@ -24,7 +24,7 @@ func main() {
 	delay := -1
 	for {
 		delay++
-		ps := delay-1
+		ps := delay - 1
 		severity := 0
 		caught := false
 		for ps-delay <= layerMax {

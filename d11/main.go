@@ -1,9 +1,9 @@
 package main
 
 import (
+	"fmt"
 	"github.com/m-r-hunt/mygifs"
 	"strings"
-	"fmt"
 )
 
 func abs(a int) int {
@@ -14,7 +14,7 @@ func abs(a int) int {
 }
 
 func hexDist(x, y int) int {
-	z := -x-y
+	z := -x - y
 	dist := (abs(x) + abs(y) + abs(z)) / 2
 	return dist
 }

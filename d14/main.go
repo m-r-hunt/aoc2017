@@ -17,15 +17,15 @@ func main() {
 		kh := d10.KnotHash(input + "-" + strconv.Itoa(i))
 		for l, n := range kh {
 			used += bits.OnesCount(uint(n))
-			for k,j := range []int{7,6,5,4,3,2,1,0} {
+			for k, j := range []int{7, 6, 5, 4, 3, 2, 1, 0} {
 				usedGrid[i][l*8+k] = (uint(n) & (1 << uint(j))) != 0
 			}
 		}
 	}
 	fmt.Println(used)
 
-	for i := 0 ; i < 128; i++ {
-		for j := 0 ; j < 128; j++ {
+	for i := 0; i < 128; i++ {
+		for j := 0; j < 128; j++ {
 			if usedGrid[i][j] {
 				fmt.Print("#")
 			} else {

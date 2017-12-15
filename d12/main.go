@@ -1,26 +1,26 @@
 package main
 
 import (
-	"github.com/m-r-hunt/mygifs"
-	"strings"
-	"strconv"
 	"fmt"
+	"github.com/m-r-hunt/mygifs"
+	"strconv"
+	"strings"
 )
 
 type dude struct {
-	visited bool
+	visited     bool
 	connections []int
 }
 
 func main() {
 	lines := mygifs.JustLoadLines("input.txt")
 	dudes := make([]dude, len(lines))
-	for i,l := range lines {
+	for i, l := range lines {
 		f := strings.Fields(l)
 		c := []int{}
 		for j := 2; j < len(f); j++ {
 			if f[j][len(f[j])-1] == ',' {
-				f[j] = f[j][0:len(f[j])-1]
+				f[j] = f[j][0 : len(f[j])-1]
 			}
 			n, _ := strconv.Atoi(f[j])
 			c = append(c, n)
@@ -34,8 +34,8 @@ func main() {
 		count++
 		tv := toVisit[0]
 		toVisit = toVisit[1:]
-		dudes[tv].visited=true
-		for _,v := range dudes[tv].connections {
+		dudes[tv].visited = true
+		for _, v := range dudes[tv].connections {
 			if !dudes[v].visited {
 				toVisit = append(toVisit, v)
 			}
@@ -51,8 +51,8 @@ func main() {
 			for len(toVisit) > 0 {
 				tv := toVisit[0]
 				toVisit = toVisit[1:]
-				dudes[tv].visited=true
-				for _,v := range dudes[tv].connections {
+				dudes[tv].visited = true
+				for _, v := range dudes[tv].connections {
 					if !dudes[v].visited {
 						toVisit = append(toVisit, v)
 					}
