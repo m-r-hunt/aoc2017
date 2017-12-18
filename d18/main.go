@@ -5,6 +5,7 @@ import (
 	"github.com/m-r-hunt/mygifs"
 	"strconv"
 	"strings"
+	"time"
 )
 
 type opcode int
@@ -28,6 +29,8 @@ type instruction struct {
 }
 
 func main() {
+
+	// Parse instructions
 	lines := mygifs.JustLoadLines("input.txt")
 	instructions := make([]instruction, len(lines))
 	for i, l := range lines {
@@ -67,82 +70,83 @@ func main() {
 			}
 		}
 	}
-	fmt.Println(instructions)
+
 	c1 := make(chan int, 256)
 	c2 := make(chan int, 256)
 	sendchans := []chan int{c1, c2}
 	rcvchans := []chan int{c2, c1}
-	for i := 0; i < 2; i++ {
-		go func(s, r chan int, p int) {
-			pc := 0
-			registers := make([]int, 26)
-			registers['p'-'a'] = p
-			sends := 0
-			for pc >= 0 && pc < len(instructions) {
-				i := instructions[pc]
-				switch i.op {
-				case snd:
-					a := i.arg1
-					if i.arg1register {
-						a = registers[a]
-					}
-					sends++
-					fmt.Println("Program sending ", p, " ", sends)
-					s <- a
-					fmt.Println("Program done sending ", p)
-				case set:
-					a1 := i.arg1
-					a2 := i.arg2
-					if i.arg2register {
-						a2 = registers[a2]
-					}
-					registers[a1] = a2
-				case add:
-					a1 := i.arg1
-					a2 := i.arg2
-					if i.arg2register {
-						a2 = registers[a2]
-					}
-					registers[a1] += a2
-				case mul:
-					a1 := i.arg1
-					a2 := i.arg2
-					if i.arg2register {
-						a2 = registers[a2]
-					}
-					registers[a1] *= a2
-				case mod:
-					a1 := i.arg1
-					a2 := i.arg2
-					if i.arg2register {
-						a2 = registers[a2]
-					}
-					registers[a1] = registers[a1] % a2
-				case rcv:
-					fmt.Println("Program receiving ", p)
-					registers[i.arg1] = <-r
-					fmt.Println("Program done receiving ", p)
-				case jgz:
-					a1 := i.arg1
-					if i.arg1register {
-						a1 = registers[a1]
-					}
-					a2 := i.arg2
-					if i.arg2register {
-						a2 = registers[a2]
-					}
-					if a1 > 0 {
-						pc += a2
-						continue
-					}
-				default:
-					panic("Instruction not implemented")
-				}
-				pc++
-			}
-		}(sendchans[i], rcvchans[i], i)
-	}
-	for {
 
+	f := func(sndc, rcvc chan int, p int) int {
+		pc := 0
+		registers := make([]int, 26)
+		registers['p'-'a'] = p
+		sends := 0
+	loop:
+		for pc >= 0 && pc < len(instructions) {
+			i := instructions[pc]
+			switch i.op {
+			case snd:
+				a := i.arg1
+				if i.arg1register {
+					a = registers[a]
+				}
+				sends++
+				sndc <- a
+			case set:
+				a1 := i.arg1
+				a2 := i.arg2
+				if i.arg2register {
+					a2 = registers[a2]
+				}
+				registers[a1] = a2
+			case add:
+				a1 := i.arg1
+				a2 := i.arg2
+				if i.arg2register {
+					a2 = registers[a2]
+				}
+				registers[a1] += a2
+			case mul:
+				a1 := i.arg1
+				a2 := i.arg2
+				if i.arg2register {
+					a2 = registers[a2]
+				}
+				registers[a1] *= a2
+			case mod:
+				a1 := i.arg1
+				a2 := i.arg2
+				if i.arg2register {
+					a2 = registers[a2]
+				}
+				registers[a1] = registers[a1] % a2
+			case rcv:
+				select {
+				case registers[i.arg1] = <-rcvc:
+				case <-time.After(time.Second):
+					break loop
+				}
+			case jgz:
+				a1 := i.arg1
+				if i.arg1register {
+					a1 = registers[a1]
+				}
+				a2 := i.arg2
+				if i.arg2register {
+					a2 = registers[a2]
+				}
+				if a1 > 0 {
+					pc += a2
+					continue
+				}
+			default:
+				panic("Instruction not implemented")
+			}
+			pc++
+		}
+		return sends
 	}
+	go f(sendchans[0], rcvchans[0], 0)
+	out := f(sendchans[1], rcvchans[1], 1)
+	fmt.Println(out)
 }
