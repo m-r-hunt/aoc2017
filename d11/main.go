@@ -1,10 +1,15 @@
-package main
+package d11
 
 import (
 	"fmt"
+	"github.com/m-r-hunt/aoc2017/registry"
 	"github.com/m-r-hunt/mygifs"
 	"strings"
 )
+
+func init() {
+	registry.RegisterDay(11, main)
+}
 
 func abs(a int) int {
 	if a < 0 {
@@ -19,8 +24,8 @@ func hexDist(x, y int) int {
 	return dist
 }
 
-func main() {
-	dirs := strings.Split(mygifs.JustLoadLines("input.txt")[0], ",")
+func main() (string, string) {
+	dirs := strings.Split(mygifs.JustLoadLines("d11/input.txt")[0], ",")
 	x := 0
 	y := 0
 	maxDist := 0
@@ -48,6 +53,5 @@ func main() {
 			maxDist = dist
 		}
 	}
-	fmt.Println(hexDist(x, y))
-	fmt.Println(maxDist)
+	return fmt.Sprint(hexDist(x, y)), fmt.Sprint(maxDist)
 }

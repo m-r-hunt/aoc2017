@@ -1,10 +1,15 @@
-package main
+package d21
 
 import (
 	"fmt"
+	"github.com/m-r-hunt/aoc2017/registry"
 	"github.com/m-r-hunt/mygifs"
 	"strings"
 )
+
+func init() {
+	registry.RegisterDay(21, main)
+}
 
 type rule struct {
 	input  []string
@@ -94,8 +99,8 @@ func countLit(grid [][]bool) int {
 	return count
 }
 
-func main() {
-	lines := mygifs.JustLoadLines("input.txt")
+func main() (string, string) {
+	lines := mygifs.JustLoadLines("d21/input.txt")
 	rules := map[int][]rule{2: []rule{}, 3: []rule{}}
 	for _, l := range lines {
 		f := strings.Fields(l)
@@ -116,10 +121,11 @@ func main() {
 	for n := 0; n < 5; n++ {
 		grid = enhance(grid, rules)
 	}
-	fmt.Println(countLit(grid))
+	ans1 := countLit(grid)
 
 	for n := 5; n < 18; n++ {
 		grid = enhance(grid, rules)
 	}
-	fmt.Println(countLit(grid))
+
+	return fmt.Sprint(ans1), fmt.Sprint(countLit(grid))
 }

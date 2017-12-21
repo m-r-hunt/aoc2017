@@ -1,10 +1,15 @@
-package main
+package d19
 
 import (
 	"fmt"
+	"github.com/m-r-hunt/aoc2017/registry"
 	"io/ioutil"
 	"strings"
 )
+
+func init() {
+	registry.RegisterDay(19, main)
+}
 
 type ttype int
 
@@ -48,8 +53,8 @@ func move(x, y int, dir direction) (int, int) {
 	return x, y
 }
 
-func main() {
-	d, err := ioutil.ReadFile("input.txt")
+func main() (string, string) {
+	d, err := ioutil.ReadFile("d19/input.txt")
 	if err != nil {
 		panic(0)
 	}
@@ -81,8 +86,6 @@ func main() {
 			}
 		}
 	}
-	fmt.Println(startx)
-	fmt.Println(grid)
 	out := ""
 	x, y := startx, 0
 	dir := down
@@ -112,6 +115,5 @@ loop:
 		}
 		count++
 	}
-	fmt.Println(out)
-	fmt.Println(count)
+	return out, fmt.Sprint(count)
 }

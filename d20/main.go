@@ -1,11 +1,16 @@
-package main
+package d20
 
 import (
 	"fmt"
+	"github.com/m-r-hunt/aoc2017/registry"
 	"github.com/m-r-hunt/mygifs"
 	"regexp"
 	"strconv"
 )
+
+func init() {
+	registry.RegisterDay(20, main)
+}
 
 type coords struct {
 	x, y, z int
@@ -27,8 +32,8 @@ func abs(a int) int {
 	return a
 }
 
-func main() {
-	lines := mygifs.JustLoadLines("input.txt")
+func main() (string, string) {
+	lines := mygifs.JustLoadLines("d20/input.txt")
 	particles := make([]particle, len(lines))
 	re := regexp.MustCompile("p=<(-?[0-9]+),(-?[0-9]+),(-?[0-9]+)>, v=<(-?[0-9]+),(-?[0-9]+),(-?[0-9]+)>, a=<(-?[0-9]+),(-?[0-9]+),(-?[0-9]+)>")
 	for i, l := range lines {
@@ -73,12 +78,11 @@ func main() {
 			mindist = dist
 		}
 	}
-	fmt.Println(mini)
 	count := 0
 	for i := range particles {
 		if !particles[i].dead {
 			count++
 		}
 	}
-	fmt.Println(count)
+	return fmt.Sprint(mini), fmt.Sprint(count)
 }

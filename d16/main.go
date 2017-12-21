@@ -1,11 +1,16 @@
-package main
+package d16
 
 import (
 	"fmt"
+	"github.com/m-r-hunt/aoc2017/registry"
 	"github.com/m-r-hunt/mygifs"
 	"strconv"
 	"strings"
 )
+
+func init() {
+	registry.RegisterDay(16, main)
+}
 
 type opcode int
 
@@ -21,9 +26,9 @@ type instruction struct {
 	arg2 int
 }
 
-func main() {
+func main() (string, string) {
 	// Parse instructions into a nice form.
-	l := mygifs.JustLoadLines("input.txt")[0]
+	l := mygifs.JustLoadLines("d16/input.txt")[0]
 	rawinstrs := strings.Split(l, ",")
 	instrs := make([]instruction, len(rawinstrs))
 	for i, ri := range rawinstrs {
@@ -57,6 +62,9 @@ func main() {
 	for i := 'a'; i <= 'p'; i++ {
 		swaps[int(i)] = int(i)
 	}
+
+	ans1 := ""
+
 	for n := 1; true; n++ {
 		for _, i := range instrs {
 			switch i.op {
@@ -71,17 +79,16 @@ func main() {
 				swaps[i.arg1], swaps[i.arg2] = swaps[i.arg2], swaps[i.arg1]
 			}
 		}
+
 		if n == 1 {
-			fmt.Print("Part 1: ")
 			for i := 0; i < 16; i++ {
 				d := dancers[(base+i)%16]
 				for k, v := range swaps {
 					if v == d {
-						fmt.Printf("%c", k)
+						ans1 += fmt.Sprintf("%c", k)
 					}
 				}
 			}
-			fmt.Println()
 		}
 
 		if !sxPeriodFound {
@@ -94,7 +101,6 @@ func main() {
 			if found {
 				sxPeriod = n
 				sxPeriodFound = true
-				fmt.Println("SX Period: ", n)
 			}
 		}
 		if !pPeriodFound {
@@ -107,7 +113,6 @@ func main() {
 			if found {
 				pPeriod = n
 				pPeriodFound = true
-				fmt.Println("P Period: ", n)
 			}
 		}
 		if sxPeriodFound && pPeriodFound {
@@ -137,14 +142,15 @@ func main() {
 		}
 	}
 
-	fmt.Print("Part 2: ")
+	ans2 := ""
 	for i := 0; i < 16; i++ {
 		d := dancers[(base+i)%16]
 		for k, v := range swaps {
 			if v == d {
-				fmt.Printf("%c", k)
+				ans2 += fmt.Sprintf("%c", k)
 			}
 		}
 	}
-	fmt.Println()
+
+	return ans1, ans2
 }

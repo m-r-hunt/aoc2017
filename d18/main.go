@@ -1,12 +1,17 @@
-package main
+package d18
 
 import (
 	"fmt"
+	"github.com/m-r-hunt/aoc2017/registry"
 	"github.com/m-r-hunt/mygifs"
 	"strconv"
 	"strings"
 	"time"
 )
+
+func init() {
+	registry.RegisterDay(18, main)
+}
 
 type opcode int
 
@@ -28,10 +33,10 @@ type instruction struct {
 	arg2register bool
 }
 
-func main() {
+func main() (string, string) {
 
 	// Parse instructions
-	lines := mygifs.JustLoadLines("input.txt")
+	lines := mygifs.JustLoadLines("d18/input.txt")
 	instructions := make([]instruction, len(lines))
 	for i, l := range lines {
 		f := strings.Fields(l)
@@ -73,14 +78,18 @@ func main() {
 
 	c1 := make(chan int, 256)
 	c2 := make(chan int, 256)
-	sendchans := []chan int{c1, c2}
-	rcvchans := []chan int{c2, c1}
+	c3 := make(chan int, 256)
+	sendchans := []chan int{c1, c2, c3}
+	rcvchans := []chan int{c2, c1, c3}
 
 	f := func(p int) int {
 		pc := 0
 		registers := make([]int, 26)
-		registers['p'-'a'] = p
+		if p != 2 {
+			registers['p'-'a'] = p
+		}
 		sends := 0
+		lastPlayed := 0
 	loop:
 		for pc >= 0 && pc < len(instructions) {
 			i := instructions[pc]
@@ -91,6 +100,7 @@ func main() {
 					a = registers[a]
 				}
 				sends++
+				lastPlayed = a
 				sendchans[p] <- a
 			case set:
 				a1 := i.arg1
@@ -121,10 +131,20 @@ func main() {
 				}
 				registers[a1] = registers[a1] % a2
 			case rcv:
-				select {
-				case registers[i.arg1] = <-rcvchans[p]:
-				case <-time.After(time.Second):
-					break loop
+				if p == 2 {
+					a := i.arg1
+					if i.arg1register {
+						a = registers[a]
+					}
+					if a != 0 {
+						return lastPlayed
+					}
+				} else {
+					select {
+					case registers[i.arg1] = <-rcvchans[p]:
+					case <-time.After(time.Second):
+						break loop
+					}
 				}
 			case jgz:
 				a1 := i.arg1
@@ -148,5 +168,8 @@ func main() {
 	}
 	go f(0)
 	out := f(1)
-	fmt.Println(out)
+
+	ans1 := f(2)
+
+	return fmt.Sprint(ans1), fmt.Sprint(out)
 }

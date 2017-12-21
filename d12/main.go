@@ -1,19 +1,24 @@
-package main
+package d12
 
 import (
 	"fmt"
+	"github.com/m-r-hunt/aoc2017/registry"
 	"github.com/m-r-hunt/mygifs"
 	"strconv"
 	"strings"
 )
+
+func init() {
+	registry.RegisterDay(12, main)
+}
 
 type dude struct {
 	visited     bool
 	connections []int
 }
 
-func main() {
-	lines := mygifs.JustLoadLines("input.txt")
+func main() (string, string) {
+	lines := mygifs.JustLoadLines("d12/input.txt")
 	dudes := make([]dude, len(lines))
 	for i, l := range lines {
 		f := strings.Fields(l)
@@ -27,7 +32,7 @@ func main() {
 		}
 		dudes[i] = dude{false, c}
 	}
-	fmt.Println(dudes)
+
 	toVisit := []int{0}
 	count := 0
 	for len(toVisit) > 0 {
@@ -41,7 +46,6 @@ func main() {
 			}
 		}
 	}
-	fmt.Println(count)
 
 	groupCount := 1
 	for i := range dudes {
@@ -61,5 +65,5 @@ func main() {
 
 		}
 	}
-	fmt.Println(groupCount)
+	return fmt.Sprint(count), fmt.Sprint(groupCount)
 }

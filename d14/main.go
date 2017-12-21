@@ -1,16 +1,21 @@
-package main
+package d14
 
 import (
 	"fmt"
 	"github.com/m-r-hunt/aoc2017/d10"
+	"github.com/m-r-hunt/aoc2017/registry"
 	"math/bits"
 	"strconv"
 )
 
+func init() {
+	registry.RegisterDay(14, main)
+}
+
 const input = "stpzcrnm"
 const test_input = "flqrgnkx"
 
-func main() {
+func main() (string, string) {
 	used := 0
 	usedGrid := [128][128]bool{}
 	for i := 0; i < 128; i++ {
@@ -21,18 +26,6 @@ func main() {
 				usedGrid[i][l*8+k] = (uint(n) & (1 << uint(j))) != 0
 			}
 		}
-	}
-	fmt.Println(used)
-
-	for i := 0; i < 128; i++ {
-		for j := 0; j < 128; j++ {
-			if usedGrid[i][j] {
-				fmt.Print("#")
-			} else {
-				fmt.Print(".")
-			}
-		}
-		fmt.Println()
 	}
 
 	visited := [128][128]bool{}
@@ -59,5 +52,6 @@ func main() {
 			}
 		}
 	}
-	fmt.Println(regions)
+
+	return fmt.Sprint(used), fmt.Sprint(regions)
 }

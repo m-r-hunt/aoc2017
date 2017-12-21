@@ -1,6 +1,13 @@
-package main
+package d15
 
-import "fmt"
+import (
+	"fmt"
+	"github.com/m-r-hunt/aoc2017/registry"
+)
+
+func init() {
+	registry.RegisterDay(15, main)
+}
 
 const startA = 883
 const startB = 879
@@ -8,7 +15,7 @@ const factorA = 16807
 const factorB = 48271
 const div = 2147483647
 
-func main() {
+func main() (string, string) {
 	judged := 0
 	a := startA
 	b := startB
@@ -19,7 +26,7 @@ func main() {
 			judged++
 		}
 	}
-	fmt.Println(judged)
+	ans1 := judged
 
 	judged = 0
 	a = startA
@@ -37,5 +44,5 @@ func main() {
 			judged++
 		}
 	}
-	fmt.Println(judged)
+	return fmt.Sprint(ans1), fmt.Sprint(judged)
 }

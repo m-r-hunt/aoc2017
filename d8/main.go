@@ -2,10 +2,10 @@ package d8
 
 import (
 	"fmt"
+	"github.com/m-r-hunt/aoc2017/registry"
 	"github.com/m-r-hunt/mygifs"
 	"strconv"
 	"strings"
-	"github.com/m-r-hunt/aoc2017/registry"
 )
 
 func init() {

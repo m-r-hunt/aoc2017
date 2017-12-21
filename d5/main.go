@@ -2,9 +2,9 @@ package d5
 
 import (
 	"fmt"
+	"github.com/m-r-hunt/aoc2017/registry"
 	"github.com/m-r-hunt/mygifs"
 	"strconv"
-	"github.com/m-r-hunt/aoc2017/registry"
 )
 
 func init() {
