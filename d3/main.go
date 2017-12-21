@@ -1,9 +1,13 @@
-package main
+package d3
 
 import (
 	"fmt"
-	"github.com/m-r-hunt/mygifs"
+	"github.com/m-r-hunt/aoc2017/registry"
 )
+
+func init() {
+	registry.RegisterDay(3, main)
+}
 
 const (
 	Up = iota
@@ -28,14 +32,11 @@ func addHeading(x, y, heading int) (int, int) {
 	}
 }
 
-func main() {
+func main() (string, string) {
 	// Part 1 via calculator/thought.
-
+	ans1 := ""
 	// Part
 	origin := 6
-	mygifs.Delay = 10
-	g := mygifs.NewGif(origin*2*25, origin*2*25)
-	defer g.Write("solution.gif")
 	spaces := make([][]int, origin*2)
 	for i := range spaces {
 		spaces[i] = make([]int, origin*2)
@@ -44,8 +45,6 @@ func main() {
 	spaces[x][y] = 1
 	heading := Down
 	for spaces[x][y] < 277678 {
-		f := g.AddCopyFrame()
-		f.DrawText(x*25, y*25, fmt.Sprint(spaces[x][y]), mygifs.Black)
 		leftTurn := (heading + 1) % MaxHeading
 		if nx, ny := addHeading(x, y, leftTurn); spaces[nx][ny] == 0 {
 			heading = leftTurn
@@ -61,8 +60,6 @@ func main() {
 				spaces[x][y] += spaces[x+i][y+j]
 			}
 		}
-		f.DrawText(x*25, y*25, fmt.Sprint(spaces[x][y]), mygifs.Red)
 	}
-	g.FreezeFrame(100)
-	fmt.Println(spaces[x][y])
+	return ans1, fmt.Sprint(spaces[x][y])
 }

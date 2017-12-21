@@ -1,10 +1,15 @@
-package main
+package d4
 
 import (
 	"fmt"
 	"github.com/m-r-hunt/mygifs"
 	"strings"
+	"github.com/m-r-hunt/aoc2017/registry"
 )
+
+func init() {
+	registry.RegisterDay(4, main)
+}
 
 func validPassphrase(l string) bool {
 	words := strings.Split(l, " ")
@@ -40,30 +45,16 @@ func validPassphrase2(l string) bool {
 	return true
 }
 
-func main() {
-	mygifs.Delay = 2
-	g := mygifs.NewGif(250, 30)
-	defer g.Write("solution.gif")
-	lines := mygifs.JustLoadLines("input.txt")
+func main() (string, string) {
+	lines := mygifs.JustLoadLines("d4/input.txt")
 	count, count2 := 0, 0
 	for _, l := range lines {
-		f := g.AddBlankFrame()
-		f.DrawText(0, 0, l, mygifs.Black)
 		if validPassphrase(l) {
 			count++
-			f.DrawText(0, 15, fmt.Sprintf("Part 1: %3v", count), mygifs.Green)
-		} else {
-			f.DrawText(0, 15, fmt.Sprintf("Part 1: %3v", count), mygifs.Red)
 		}
 		if validPassphrase2(l) {
 			count2++
-			f.DrawText(50, 15, fmt.Sprintf("Part 2: %3v", count2), mygifs.Green)
-		} else {
-			f.DrawText(50, 15, fmt.Sprintf("Part 2: %3v", count2), mygifs.Red)
-
 		}
 	}
-	fmt.Println(count)
-	fmt.Println(count2)
-	g.FreezeFrame(100)
+	return fmt.Sprint(count), fmt.Sprint(count2)
 }
