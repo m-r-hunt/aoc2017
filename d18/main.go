@@ -76,7 +76,7 @@ func main() {
 	sendchans := []chan int{c1, c2}
 	rcvchans := []chan int{c2, c1}
 
-	f := func(sndc, rcvc chan int, p int) int {
+	f := func(p int) int {
 		pc := 0
 		registers := make([]int, 26)
 		registers['p'-'a'] = p
@@ -91,7 +91,7 @@ func main() {
 					a = registers[a]
 				}
 				sends++
-				sndc <- a
+				sendchans[p] <- a
 			case set:
 				a1 := i.arg1
 				a2 := i.arg2
@@ -122,7 +122,7 @@ func main() {
 				registers[a1] = registers[a1] % a2
 			case rcv:
 				select {
-				case registers[i.arg1] = <-rcvc:
+				case registers[i.arg1] = <-rcvchans[p]:
 				case <-time.After(time.Second):
 					break loop
 				}
@@ -146,7 +146,7 @@ func main() {
 		}
 		return sends
 	}
-	go f(sendchans[0], rcvchans[0], 0)
-	out := f(sendchans[1], rcvchans[1], 1)
+	go f(0)
+	out := f(1)
 	fmt.Println(out)
 }
