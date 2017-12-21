@@ -5,7 +5,12 @@ import (
 	"github.com/m-r-hunt/mygifs"
 	"strconv"
 	"strings"
+	"github.com/m-r-hunt/aoc2017/registry"
 )
+
+func init() {
+	registry.RegisterDay(10, main)
+}
 
 func KnotHash(toHash string) []int {
 	hash := make([]int, 256)
@@ -51,8 +56,8 @@ func KnotHashToString(denseHash []int) string {
 	return out
 }
 
-func main() {
-	line := mygifs.JustLoadLines("input.txt")[0]
+func main() (string, string) {
+	line := mygifs.JustLoadLines("d10/input.txt")[0]
 
 	// Part 1: Proto knot hash
 	lenstrs := strings.Split(line, ",")
@@ -78,8 +83,6 @@ func main() {
 		pos = pos % len(hash)
 		skipSize++
 	}
-	fmt.Println(hash[0] * hash[1])
 
-	// Part 2
-	fmt.Println(KnotHashToString(KnotHash(line)))
+	return fmt.Sprint(hash[0] * hash[1]), KnotHashToString(KnotHash(line))
 }

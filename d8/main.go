@@ -1,11 +1,16 @@
-package main
+package d8
 
 import (
 	"fmt"
 	"github.com/m-r-hunt/mygifs"
 	"strconv"
 	"strings"
+	"github.com/m-r-hunt/aoc2017/registry"
 )
+
+func init() {
+	registry.RegisterDay(8, main)
+}
 
 type instruction struct {
 	target    string
@@ -16,8 +21,8 @@ type instruction struct {
 	testValue int
 }
 
-func main() {
-	lines := mygifs.JustLoadLines("input.txt")
+func main() (string, string) {
+	lines := mygifs.JustLoadLines("d8/input.txt")
 	instructions := make([]instruction, len(lines))
 	allMax := 0
 	for i, l := range lines {
@@ -36,7 +41,7 @@ func main() {
 		instructions[i].test = f[5]
 		instructions[i].testValue, _ = strconv.Atoi(f[6])
 	}
-	fmt.Println(instructions)
+
 	pc := 0
 	registers := map[string]int{}
 	for pc >= 0 && pc < len(instructions) {
@@ -85,6 +90,5 @@ func main() {
 			max = v
 		}
 	}
-	fmt.Println(max)
-	fmt.Println(allMax)
+	return fmt.Sprint(max), fmt.Sprint(allMax)
 }

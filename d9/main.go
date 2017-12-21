@@ -1,12 +1,17 @@
-package main
+package d9
 
 import (
 	"fmt"
 	"github.com/m-r-hunt/mygifs"
+	"github.com/m-r-hunt/aoc2017/registry"
 )
 
-func main() {
-	l := mygifs.JustLoadLines("input.txt")[0]
+func init() {
+	registry.RegisterDay(9, main)
+}
+
+func main() (string, string) {
+	l := mygifs.JustLoadLines("d9/input.txt")[0]
 	garbo := false
 	depth := 1
 	totalScore := 0
@@ -36,6 +41,6 @@ func main() {
 			}
 		}
 	}
-	fmt.Println(totalScore)
-	fmt.Println(garboChars)
+
+	return fmt.Sprint(totalScore), fmt.Sprint(garboChars)
 }
