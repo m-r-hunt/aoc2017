@@ -1,7 +1,16 @@
-package main
+package dtemplate
 
-import "github.com/m-r-hunt/mygifs"
+import (
+	"github.com/m-r-hunt/mygifs"
+	"github.com/m-r-hunt/aoc2017/registry"
+)
 
-func main() {
+func init() {
+	registry.RegisterDay(template, main)
+}
+
+func main() (string, string) {
 	lines := mygifs.JustLoadLines("input.txt")
+
+	return "", ""
 }
