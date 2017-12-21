@@ -76,7 +76,7 @@ func main() {
 		go func(s, r chan int, p int) {
 			pc := 0
 			registers := make([]int, 26)
-			registers['p' - 'a'] = p
+			registers['p'-'a'] = p
 			sends := 0
 			for pc >= 0 && pc < len(instructions) {
 				i := instructions[pc]
@@ -120,7 +120,7 @@ func main() {
 					registers[a1] = registers[a1] % a2
 				case rcv:
 					fmt.Println("Program receiving ", p)
-					registers[i.arg1]= <- r
+					registers[i.arg1] = <-r
 					fmt.Println("Program done receiving ", p)
 				case jgz:
 					a1 := i.arg1

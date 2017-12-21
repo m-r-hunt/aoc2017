@@ -91,7 +91,7 @@ func countLit(grid [][]bool) int {
 			}
 		}
 	}
-		return count
+	return count
 }
 
 func main() {
