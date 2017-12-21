@@ -1,14 +1,13 @@
 package registry
 
-type Part func() string
+type Day func() (string, string)
 
-var registry = map[int][2]Part{}
+var registry = map[int]Day{}
 
-func RegisterDay(day int, part1, part2 func() string) {
-	p := [2]Part{part1, part2}
-	registry[day] = p
+func RegisterDay(day int, fn Day) {
+	registry[day] = fn
 }
 
-func GetPart(day, part int) Part {
-	return registry[day][part-1]
+func GetDay(day int) Day {
+	return registry[day]
 }

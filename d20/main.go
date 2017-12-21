@@ -1,19 +1,19 @@
 package main
 
 import (
+	"fmt"
 	"github.com/m-r-hunt/mygifs"
 	"regexp"
 	"strconv"
-	"fmt"
 )
 
 type coords struct {
-	x,y,z int
+	x, y, z int
 }
 
 type particle struct {
 	pos, vel, acc coords
-	dead bool
+	dead          bool
 }
 
 func add(a, b coords) coords {
@@ -31,7 +31,7 @@ func main() {
 	lines := mygifs.JustLoadLines("input.txt")
 	particles := make([]particle, len(lines))
 	re := regexp.MustCompile("p=<(-?[0-9]+),(-?[0-9]+),(-?[0-9]+)>, v=<(-?[0-9]+),(-?[0-9]+),(-?[0-9]+)>, a=<(-?[0-9]+),(-?[0-9]+),(-?[0-9]+)>")
-	for i,l := range lines {
+	for i, l := range lines {
 		m := re.FindStringSubmatch(l)
 		particles[i].pos.x, _ = strconv.Atoi(m[1])
 		particles[i].pos.y, _ = strconv.Atoi(m[2])
@@ -54,7 +54,7 @@ func main() {
 
 		for i := range particles {
 			if !particles[i].dead {
-				for j := i+1; j < len(particles); j++ {
+				for j := i + 1; j < len(particles); j++ {
 					if !particles[j].dead && particles[i].pos == particles[j].pos {
 						particles[i].dead = true
 						particles[j].dead = true

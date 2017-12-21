@@ -37,7 +37,7 @@ func move(x, y int, dir direction) (int, int) {
 	case down:
 		y += 1
 	case right:
-	x += 1
+		x += 1
 	case up:
 		y -= 1
 	case left:
@@ -59,7 +59,7 @@ func main() {
 	}
 
 	for len(lines) > 0 && lines[len(lines)-1] == "" {
-		lines = lines[0:len(lines)-1]
+		lines = lines[0 : len(lines)-1]
 	}
 	grid := make([][]ttype, len(lines))
 	startx := 0
@@ -87,7 +87,7 @@ func main() {
 	x, y := startx, 0
 	dir := down
 	count := 0
-	loop:
+loop:
 	for x >= 0 && x < len(grid[0]) && y >= 0 && y < len(grid) {
 		switch grid[y][x] {
 		default:
@@ -98,7 +98,7 @@ func main() {
 		case corner:
 			x1, y1 := move(x, y, turn(dir, -1))
 			x2, y2 := move(x, y, turn(dir, 1))
-			if x1 >= 0 && x1 < len(grid[0]) && y1 >= 0 && y1 < len(grid)&& grid[y1][x1] != ' ' {
+			if x1 >= 0 && x1 < len(grid[0]) && y1 >= 0 && y1 < len(grid) && grid[y1][x1] != ' ' {
 				x, y = x1, y1
 				dir = turn(dir, -1)
 			} else if x2 >= 0 && x2 < len(grid[0]) && y2 >= 0 && y2 < len(grid) && grid[y2][x2] != ' ' {
@@ -106,7 +106,7 @@ func main() {
 				dir = turn(dir, 1)
 			} else {
 				panic("fblewh")
-		}
+			}
 		case ' ':
 			break loop
 		}
