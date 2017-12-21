@@ -29,9 +29,10 @@ func applyRule(size int, i, j int, grid *[][]bool, r rule) {
 	}
 }
 
-func enhance(size int, i, j int, oldGrid [][]bool, newGrid *[][]bool, rules []rule) {
+func enhanceCell(size int, i, j int, oldGrid [][]bool, newGrid *[][]bool, rules []rule) {
 
-	transforms := []func(m, n int) (int, int){
+	type transform func(m, n int) (int, int)
+	transforms := []transform{
 		func(m, n int) (int, int) { return m, n },
 		func(m, n int) (int, int) { return size - 1 - m, n },
 		func(m, n int) (int, int) { return m, size - 1 - n },
@@ -42,7 +43,7 @@ func enhance(size int, i, j int, oldGrid [][]bool, newGrid *[][]bool, rules []ru
 		func(m, n int) (int, int) { return size - 1 - n, size - 1 - m },
 	}
 
-	tryTransformedRule := func(t func(m, n int) (int, int), r rule) bool {
+	tryTransformedRule := func(t transform, r rule) bool {
 		for m := 0; m < size; m++ {
 			for n := 0; n < size; n++ {
 				mt, nt := t(m, n)
@@ -66,6 +67,33 @@ func enhance(size int, i, j int, oldGrid [][]bool, newGrid *[][]bool, rules []ru
 	panic("No rule matched")
 }
 
+func enhance(grid [][]bool, rules map[int][]rule) [][]bool {
+	size := 3
+	if len(grid)%2 == 0 {
+		size = 2
+	}
+
+	newGrid := makeGrid(len(grid) + len(grid)/size)
+	for i := 0; i < len(grid); i += size {
+		for j := 0; j < len(grid); j += size {
+			enhanceCell(size, i, j, grid, &newGrid, rules[size])
+		}
+	}
+	return newGrid
+}
+
+func countLit(grid [][]bool) int {
+	count := 0
+	for i := 0; i < len(grid); i++ {
+		for j := 0; j < len(grid); j++ {
+			if grid[i][j] {
+				count++
+			}
+		}
+	}
+		return count
+}
+
 func main() {
 	lines := mygifs.JustLoadLines("input.txt")
 	rules := map[int][]rule{2: []rule{}, 3: []rule{}}
@@ -85,28 +113,13 @@ func main() {
 		{true, true, true},
 	}
 
-	for n := 0; n < 18; n++ {
-		size := 3
-		if len(grid)%2 == 0 {
-			size = 2
-		}
-
-		newGrid := makeGrid(len(grid) + len(grid)/size)
-		for i := 0; i < len(grid); i += size {
-			for j := 0; j < len(grid); j += size {
-				enhance(size, i, j, grid, &newGrid, rules[size])
-			}
-		}
-		grid = newGrid
+	for n := 0; n < 5; n++ {
+		grid = enhance(grid, rules)
 	}
+	fmt.Println(countLit(grid))
 
-	count := 0
-	for i := 0; i < len(grid); i++ {
-		for j := 0; j < len(grid); j++ {
-			if grid[i][j] {
-				count++
-			}
-		}
+	for n := 5; n < 18; n++ {
+		grid = enhance(grid, rules)
 	}
-	fmt.Println(count)
+	fmt.Println(countLit(grid))
 }
