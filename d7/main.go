@@ -1,11 +1,16 @@
-package main
+package d7
 
 import (
 	"fmt"
 	"github.com/m-r-hunt/mygifs"
 	"strconv"
 	"strings"
+	"github.com/m-r-hunt/aoc2017/registry"
 )
+
+func init() {
+	registry.RegisterDay(7, main)
+}
 
 type tower struct {
 	totalWeight int
@@ -27,6 +32,8 @@ func weight(root string, towers map[string]tower) int {
 	return t
 }
 
+var ans2 = 0
+
 func findImbalance(root string, towers map[string]tower) bool {
 	weights := make([]int, len(towers[root].children))
 	for i, c := range towers[root].children {
@@ -39,19 +46,13 @@ func findImbalance(root string, towers map[string]tower) bool {
 				t = findImbalance(towers[root].children[i], towers)
 				if t {
 					tt := towers[towers[root].children[i]]
-					fmt.Println(tt.weight)
-					fmt.Println(tt.totalWeight)
-					fmt.Println(towers[towers[root].children[i+1]].totalWeight)
-					fmt.Println(towers[towers[root].children[i+1]].weight)
+					fmt.Println(tt.weight + towers[towers[root].children[i+1]].totalWeight - tt.totalWeight)
 				}
 			} else {
 				t = findImbalance(towers[root].children[i+1], towers)
 				if t {
 					tt := towers[towers[root].children[i+1]]
-					fmt.Println(tt.weight)
-					fmt.Println(tt.totalWeight)
-					fmt.Println(towers[towers[root].children[i]].totalWeight)
-					fmt.Println(towers[towers[root].children[i]].weight)
+					ans2 = tt.weight + towers[towers[root].children[i]].totalWeight - tt.totalWeight
 				}
 			}
 			goto found
@@ -63,8 +64,8 @@ found:
 	return false
 }
 
-func main() {
-	lines := mygifs.JustLoadLines("input.txt")
+func main() (string, string) {
+	lines := mygifs.JustLoadLines("d7/input.txt")
 	towers := map[string]tower{}
 	for _, s := range lines {
 		fields := strings.Fields(s)
@@ -83,20 +84,18 @@ func main() {
 		}
 		towers[fields[0]] = t
 	}
-	fmt.Println(towers)
 	dudes := make(map[string]bool)
 	for _, ds := range towers {
 		for _, s := range ds.children {
 			dudes[s] = true
 		}
 	}
-	fmt.Println(dudes)
 	root := ""
 	for d := range towers {
 		if !dudes[d] {
-			fmt.Println(d)
 			root = d
 		}
 	}
 	findImbalance(root, towers)
+	return root, fmt.Sprint(ans2)
 }

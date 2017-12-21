@@ -10,6 +10,7 @@ import (
 	_ "github.com/m-r-hunt/aoc2017/d4"
 	_ "github.com/m-r-hunt/aoc2017/d5"
 	_ "github.com/m-r-hunt/aoc2017/d6"
+	_ "github.com/m-r-hunt/aoc2017/d7"
 	"github.com/m-r-hunt/aoc2017/registry"
 	"github.com/m-r-hunt/mygifs"
 	"time"
