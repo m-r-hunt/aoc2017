@@ -1,9 +1,14 @@
-package main
+package d1
 
 import (
 	"fmt"
 	"github.com/m-r-hunt/mygifs"
+	"github.com/m-r-hunt/aoc2017/registry"
 )
+
+func init() {
+	registry.RegisterDay(1, part1, part2)
+}
 
 func drawBands(f *mygifs.Frame, s string) {
 	for i, d := range s {
