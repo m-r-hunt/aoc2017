@@ -41,7 +41,7 @@ func main() {
 		endtsc := gotsc.BenchEnd()
 		time := time.Since(start)
 		fmt.Printf("(%v Cycles)", endtsc-starttsc-tsc)
-		fmt.Printf("(%vms):\n", time.Nanoseconds()/1000)
+		fmt.Printf("(%vms):\n", time.Nanoseconds()/1000000)
 
 		if len(answers) < (day-1)*2+1 {
 			fmt.Printf("  Part 1 [UNANSWERED] Result: %v\n", result1)
