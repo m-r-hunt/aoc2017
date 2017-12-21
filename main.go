@@ -8,6 +8,7 @@ import (
 	_ "github.com/m-r-hunt/aoc2017/d2"
 	_ "github.com/m-r-hunt/aoc2017/d3"
 	_ "github.com/m-r-hunt/aoc2017/d4"
+	_ "github.com/m-r-hunt/aoc2017/d5"
 	"github.com/m-r-hunt/aoc2017/registry"
 	"github.com/m-r-hunt/mygifs"
 	"time"
@@ -53,7 +54,7 @@ func main() {
 		if len(answers) < (day-1)*2+2 {
 			fmt.Printf("  Part 2 [UNANSWERED] Result: %v\n", result2)
 		} else if result2 != answers[(day-1)*2+1] {
-			fmt.Print("  Part 2 [FAIL] Got: %v, Expected: %v\n", result2, answers[(day-1)*2+1])
+			fmt.Printf("  Part 2 [FAIL] Got: %v, Expected: %v\n", result2, answers[(day-1)*2+1])
 		} else {
 			fmt.Printf("  Part 2 [OK] Result: %v\n", result2)
 		}
