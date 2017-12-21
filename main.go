@@ -3,14 +3,18 @@ package main
 import (
 	"flag"
 	"fmt"
+	"github.com/dterei/gotsc"
 	_ "github.com/m-r-hunt/aoc2017/d1"
 	_ "github.com/m-r-hunt/aoc2017/d2"
+	_ "github.com/m-r-hunt/aoc2017/d3"
+	_ "github.com/m-r-hunt/aoc2017/d4"
 	"github.com/m-r-hunt/aoc2017/registry"
 	"github.com/m-r-hunt/mygifs"
 	"time"
 )
 
 func main() {
+	tsc := gotsc.TSCOverhead()
 	var day = flag.Int("d", -1, "Run specific day")
 	flag.Parse()
 	if *day != -1 {
@@ -32,8 +36,11 @@ func main() {
 		}
 
 		start := time.Now()
+		starttsc := gotsc.BenchStart()
 		result1, result2 := dayFn()
+		endtsc := gotsc.BenchEnd()
 		time := time.Since(start)
+		fmt.Printf("(%v Cycles)", endtsc-starttsc-tsc)
 		fmt.Printf("(%vms):\n", time.Nanoseconds()/1000)
 
 		if len(answers) < (day-1)*2+1 {
