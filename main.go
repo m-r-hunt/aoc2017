@@ -18,6 +18,8 @@ import (
 	_ "github.com/m-r-hunt/aoc2017/d2"
 	_ "github.com/m-r-hunt/aoc2017/d20"
 	_ "github.com/m-r-hunt/aoc2017/d21"
+	_ "github.com/m-r-hunt/aoc2017/d22"
+	_ "github.com/m-r-hunt/aoc2017/d23"
 	_ "github.com/m-r-hunt/aoc2017/d3"
 	_ "github.com/m-r-hunt/aoc2017/d4"
 	_ "github.com/m-r-hunt/aoc2017/d5"
