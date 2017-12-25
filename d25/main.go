@@ -22,6 +22,7 @@ const (
 	right = 1
 )
 
+// Hand parsed...
 var instructions = map[state]map[int]instruction{
 	'A': {0: {1, right, 'B'}, 1: {0, left, 'B'}},
 	'B': {0: {0, right, 'C'}, 1: {1, left, 'B'}},
@@ -43,10 +44,10 @@ func main() (string, string) {
 		state = i.next
 	}
 
-	count := 0
+	checksum := 0
 	for _, v := range tape {
-		count += v
+		checksum += v
 	}
 
-	return fmt.Sprint(count), "reboot printer"
+	return fmt.Sprint(checksum), "reboot printer"
 }
