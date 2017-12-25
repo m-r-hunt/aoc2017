@@ -46,3 +46,5 @@ QPRYCIOLU
 911
 1656
 1642
+3745
+reboot printer
